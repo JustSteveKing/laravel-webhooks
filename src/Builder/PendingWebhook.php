@@ -71,13 +71,12 @@ final class PendingWebhook implements PendingWebhookContract
      */
     public function intercept(Closure $callback): PendingWebhook
     {
-        $userAgent = 'Laravel_Webhooks';
+        $userAgent = strval(config('webhooks.user_agent.name'));
 
         if ($this->request) {
             $this->request->withUserAgent(
                 userAgent: $userAgent,
             );
-
 
             $this->request = $callback($this->request);
 
@@ -119,13 +118,15 @@ final class PendingWebhook implements PendingWebhookContract
     public function send(Method $method = Method::POST): Response
     {
         if (null === $this->request) {
-            $this->intercept(fn (PendingRequest $request) => $request->timeout(15));
+            $this->intercept(fn (PendingRequest $request) => $request
+                ->timeout(intval(config('webhooks.request.timeout'))),
+            );
         }
 
         /** @phpstan-ignore-next-line  */
         $this->request->withHeaders(
             headers: [
-                'Signature' => $this->signature ?: $this->sign()->signature,
+                strval(config('webhooks.signing.header')) => $this->signature ?: $this->sign()->signature,
             ],
         );
 
