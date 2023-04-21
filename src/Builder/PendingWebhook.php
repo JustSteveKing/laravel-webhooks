@@ -118,8 +118,9 @@ final class PendingWebhook implements PendingWebhookContract
     public function send(Method $method = Method::POST): Response
     {
         if (null === $this->request) {
-            $this->intercept(fn (PendingRequest $request) => $request
-                ->timeout(intval(config('webhooks.request.timeout'))),
+            $this->intercept(
+                fn (PendingRequest $request) => $request
+                    ->timeout(intval(config('webhooks.request.timeout'))),
             );
         }
 

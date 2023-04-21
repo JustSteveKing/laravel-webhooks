@@ -11,6 +11,23 @@ use Orchestra\Testbench\TestCase;
 
 abstract class PackageTestCase extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->configure(
+            app: $this->app,
+        );
+    }
+
+    protected function configure(Application $app): void
+    {
+        $app['config']['webhooks.signing.header'] = 'Signature';
+        $app['config']['webhooks.signing.key'] = '123456';
+        $app['config']['webhooks.user_agent.name'] = 'Laravel_Webhooks_Test';
+        $app['config']['webhooks.request.timeout'] = 15;
+    }
+
     /**
      * @param Application $app
      * @return array<int,class-string>
