@@ -42,6 +42,16 @@
       "./vendor/bin/pest"
     ]
   },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "JustSteveKing\\Webhooks\\Providers\\PackageServiceProvider"
+      ],
+      "aliases": {
+        "Webhook": "JustSteveKing\\Webhooks\\Facades\\Webhook"
+      }
+    }
+  },
   "config": {
     "sort-packages": true,
     "optimize-autoloader": true,

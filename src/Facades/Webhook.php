@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace JustSteveKing\Webhooks\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use JustSteveKing\HttpHelpers\Enums\Method;
 use JustSteveKing\Webhooks\Builder\PendingWebhook;
 use JustSteveKing\Webhooks\Factories\WebhookFactory;
 
