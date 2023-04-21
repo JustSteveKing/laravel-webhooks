@@ -15,7 +15,8 @@ final readonly class WebhookFactory implements FactoryContract
      */
     public function __construct(
         private SigningContract $signer,
-    ) {}
+    ) {
+    }
 
     /**
      * Set the URL you want to send this payload to.

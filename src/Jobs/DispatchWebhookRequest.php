@@ -20,7 +20,8 @@ final class DispatchWebhookRequest implements ShouldQueue
 
     public function __construct(
         public readonly PendingWebhook $webhook,
-    ) {}
+    ) {
+    }
 
     public function handle(): void
     {

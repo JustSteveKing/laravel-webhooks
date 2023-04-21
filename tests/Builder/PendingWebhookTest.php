@@ -93,6 +93,6 @@ it('dispatches a job', function (string $url): void {
 
     Bus::assertDispatched(
         command: DispatchWebhookRequest::class,
-        callback: fn (DispatchWebhookRequest $job) => $job->queue === 'test',
+        callback: fn (DispatchWebhookRequest $job) => 'test' === $job->queue,
     );
 })->with('urls');
