@@ -11,13 +11,10 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Facade;
 use JustSteveKing\HttpHelpers\Enums\Method;
 use JustSteveKing\Webhooks\Builder\PendingWebhook;
+use JustSteveKing\Webhooks\Factories\WebhookFactory;
 
 /**
- * @method static PendingWebhook sign() Create the webhook signature.
- * @method static PendingWebhook payload(array $payload) Set the payload for the Webhook.
- * @method static PendingWebhook intercept(Closure $callback) Intercept the Http Request to override options.
- * @method static PendingDispatch|PendingClosureDispatch queue(null|string $queue = null) Dispatch the webhook to be sent on a Queue.
- * @method static Response send(Method $method = Method::POST) Send the webhook.
+ * @method static PendingWebhook to(string $url) Create a new pending webhook.
  * @see PendingWebhook
  */
 final class Webhook extends Facade
@@ -27,6 +24,6 @@ final class Webhook extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return PendingWebhook::class;
+        return WebhookFactory::class;
     }
 }

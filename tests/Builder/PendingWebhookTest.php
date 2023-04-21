@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Http;
 use JustSteveKing\Webhooks\Builder\PendingWebhook;
+use JustSteveKing\Webhooks\Jobs\DispatchWebhookRequest;
 use JustSteveKing\Webhooks\Signing\WebhookSigner;
 
 beforeEach(fn () => $this->signer = new WebhookSigner(key: 'test'));
@@ -75,4 +77,22 @@ it('can send the webhook', function (string $url): void {
     $pendingWebhook->send();
 
     Http::assertSentCount(1);
+})->with('urls');
+
+it('dispatches a job', function (string $url): void {
+    Bus::fake();
+
+    $pendingWebhook = new PendingWebhook(
+        url: $url,
+        signer: $this->signer,
+    );
+
+    $pendingWebhook->queue(
+        queue: 'test',
+    );
+
+    Bus::assertDispatched(
+        command: DispatchWebhookRequest::class,
+        callback: fn (DispatchWebhookRequest $job) => $job->queue === 'test',
+    );
 })->with('urls');

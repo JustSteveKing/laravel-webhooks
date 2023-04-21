@@ -14,21 +14,21 @@ use Illuminate\Support\Facades\Http;
 use JsonException;
 use JustSteveKing\HttpHelpers\Enums\Method;
 use JustSteveKing\Webhooks\Contracts\Builder\PendingWebhookContract;
+use JustSteveKing\Webhooks\Contracts\Signing\SigningContract;
 use JustSteveKing\Webhooks\Jobs\DispatchWebhookRequest;
-use JustSteveKing\Webhooks\Signing\WebhookSigner;
 
 final class PendingWebhook implements PendingWebhookContract
 {
     /**
      * @param string $url
-     * @param WebhookSigner $signer
+     * @param SigningContract $signer
      * @param array $payload
      * @param string|null $signature
      * @param PendingRequest|null $request
      */
     public function __construct(
         public readonly string $url,
-        public readonly WebhookSigner $signer,
+        public readonly SigningContract $signer,
         public array $payload = [],
         public null|string $signature = null,
         public null|PendingRequest $request = null,
