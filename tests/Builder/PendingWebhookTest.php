@@ -18,13 +18,21 @@ test('it can build a new Pending Webhook')
         signer: $this->signer,
     ))->toBeInstanceOf(PendingWebhook::class);
 
-test('it can create a signature')
+test('it can set the webhook to be signed')
     ->with('urls')
     ->expect(fn (string $url) => (new PendingWebhook(
         url: $url,
         signer: $this->signer,
         payload: ['foo' => 'bar'],
-    ))->sign()->signature)->toBeString();
+    ))->signed()->signed)->toBeTrue();
+
+test('it can set the webhook to not be signed')
+    ->with('urls')
+    ->expect(fn (string $url) => (new PendingWebhook(
+        url: $url,
+        signer: $this->signer,
+        payload: ['foo' => 'bar'],
+    ))->notSigned()->signed)->toBeFalse();
 
 it('can set the payload', function (string $url): void {
     $pendingWebhook = new PendingWebhook(

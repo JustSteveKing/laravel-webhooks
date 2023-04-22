@@ -16,7 +16,14 @@ interface PendingWebhookContract
      * Create the webhook signature.
      * @return PendingWebhookContract
      */
-    public function sign(): PendingWebhookContract;
+    public function signed(): PendingWebhookContract;
+
+    /**
+     * Do not sign this webhook.
+     *
+     * @return PendingWebhookContract
+     */
+    public function notSigned(): PendingWebhookContract;
 
     /**
      * Set the payload for the Webhook.
