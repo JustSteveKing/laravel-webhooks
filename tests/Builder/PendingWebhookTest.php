@@ -35,7 +35,7 @@ it('can set the payload', function (string $url): void {
     expect(
         $pendingWebhook->payload
     )->toBeArray()->toBeEmpty()->and(
-        $pendingWebhook->payload(['foo' => 'bar'])->payload,
+        $pendingWebhook->with(['foo' => 'bar'])->payload,
     )->toBeArray()->toEqual(['foo' => 'bar']);
 })->with('urls');
 

@@ -85,7 +85,7 @@ In the below example, we are sending a webhook to `https://your-url.com/` and se
 use JustSteveKing\Webhooks\Facades\Webhook;
 
 Webhook::to('https://your-url.com/')
-    ->payload(Post::query()->first()->toArray())
+    ->with(Post::query()->first()->toArray())
     ->sign()
     ->send();
 ```
@@ -101,7 +101,7 @@ use Illuminate\Http\Client\PendingRequest;
 use JustSteveKing\Webhooks\Facades\Webhook;
 
 Webhook::to('https://your-url.com/')
-    ->payload(Post::query()->first()->toArray())
+    ->with(Post::query()->first()->toArray())
     ->sign()
     ->intercept(fn (PendingRequest $request) => $request
         ->withToken('YOUR-BEARER-TOKEN'),
@@ -115,7 +115,7 @@ If you don't need to sign the webhook, then you can skip calling the `sign` meth
 ```php
 use JustSteveKing\Webhooks\Facades\Webhook;
 
-Webhook::to('https://your-url.com/')->payload(
+Webhook::to('https://your-url.com/')->with(
     Post::query()->first()->toArray()
 )->send();
 ```

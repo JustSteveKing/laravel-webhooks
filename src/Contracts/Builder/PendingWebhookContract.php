@@ -24,7 +24,7 @@ interface PendingWebhookContract
      * @param array $payload
      * @return PendingWebhookContract
      */
-    public function payload(array $payload): PendingWebhookContract;
+    public function with(array $payload): PendingWebhookContract;
 
     /**
      * Intercept the Http Request to override options.

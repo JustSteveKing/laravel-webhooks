@@ -56,7 +56,7 @@ final class PendingWebhook implements PendingWebhookContract
      * @param array $payload
      * @return PendingWebhook
      */
-    public function payload(array $payload): PendingWebhook
+    public function with(array $payload): PendingWebhook
     {
         $this->payload = $payload;
 
