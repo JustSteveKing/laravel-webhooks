@@ -16,7 +16,14 @@ interface PendingWebhookContract
      * Create the webhook signature.
      * @return PendingWebhookContract
      */
-    public function sign(): PendingWebhookContract;
+    public function signed(): PendingWebhookContract;
+
+    /**
+     * Do not sign this webhook.
+     *
+     * @return PendingWebhookContract
+     */
+    public function notSigned(): PendingWebhookContract;
 
     /**
      * Set the payload for the Webhook.
@@ -24,7 +31,7 @@ interface PendingWebhookContract
      * @param array $payload
      * @return PendingWebhookContract
      */
-    public function payload(array $payload): PendingWebhookContract;
+    public function with(array $payload): PendingWebhookContract;
 
     /**
      * Intercept the Http Request to override options.
