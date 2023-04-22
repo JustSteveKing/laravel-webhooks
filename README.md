@@ -74,7 +74,8 @@ The Pending Webhook has the following properties in the constructor:
 - `url` - The URL you want to send the webhook to.
 - `signer` - An instance of the webhook signer you want to use. This must implement the `SigningContract`.
 - `payload` - You can pre-pass in the payload that you want to send in your webhook. This should be an `array`.
-- `signature` - You can pre-pass in the signature that you want to use to sign your Webhooks with.
+- `signed` - You can pre-pass in whether you want this webhook to be signed or not, the default is `true`
+.- `signature` - You can pre-pass in the signature that you want to use to sign your Webhooks with.
 - `request` - You can pre-pass in a `PendingRequest` that you want to use to send your webhooks, this is useful when you need to attach an API token to your Webhooks.
 
 ## A simple example
@@ -85,8 +86,7 @@ In the below example, we are sending a webhook to `https://your-url.com/` and se
 use JustSteveKing\Webhooks\Facades\Webhook;
 
 Webhook::to('https://your-url.com/')
-    ->payload(Post::query()->first()->toArray())
-    ->sign()
+    ->with(Post::query()->first()->toArray())
     ->send();
 ```
 
@@ -101,8 +101,7 @@ use Illuminate\Http\Client\PendingRequest;
 use JustSteveKing\Webhooks\Facades\Webhook;
 
 Webhook::to('https://your-url.com/')
-    ->payload(Post::query()->first()->toArray())
-    ->sign()
+    ->with(Post::query()->first()->toArray())
     ->intercept(fn (PendingRequest $request) => $request
         ->withToken('YOUR-BEARER-TOKEN'),
     )->queue('my-queue-name');
@@ -110,17 +109,15 @@ Webhook::to('https://your-url.com/')
 
 ## Not signing the webhook
 
-If you don't need to sign the webhook, then you can skip calling the `sign` method.
+If you don't need to sign the webhook.
 
 ```php
 use JustSteveKing\Webhooks\Facades\Webhook;
 
-Webhook::to('https://your-url.com/')->payload(
+Webhook::to('https://your-url.com/')->with(
     Post::query()->first()->toArray()
-)->send();
+)->notSigned()->send();
 ```
-
-**Please note, it is important that the payload is set before you call `sign` otherwise your signature will not match your payload**
 
 ## Testing
 

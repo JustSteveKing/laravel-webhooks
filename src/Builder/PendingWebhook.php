@@ -30,25 +30,37 @@ final class PendingWebhook implements PendingWebhookContract
         public readonly string $url,
         public readonly SigningContract $signer,
         public array $payload = [],
+        public bool $signed = true,
         public null|string $signature = null,
         public null|PendingRequest $request = null,
     ) {
     }
 
     /**
-     * Create the webhook signature.
+     * Enforce the webhook to be signed.
      *
      * @return PendingWebhook
      * @throws JsonException
      */
-    public function sign(): PendingWebhook
+    public function signed(): PendingWebhook
     {
-        $this->signature = $this->signer->sign(
-            payload: $this->payload,
-        );
+        $this->signed = true;
 
         return $this;
     }
+
+    /**
+     * Do not sign this webhook.
+     *
+     * @return PendingWebhook
+     */
+    public function notSigned(): PendingWebhook
+    {
+        $this->signed = false;
+
+        return $this;
+    }
+
 
     /**
      * Set the payload for the Webhook.
@@ -56,7 +68,7 @@ final class PendingWebhook implements PendingWebhookContract
      * @param array $payload
      * @return PendingWebhook
      */
-    public function payload(array $payload): PendingWebhook
+    public function with(array $payload): PendingWebhook
     {
         $this->payload = $payload;
 
@@ -97,6 +109,7 @@ final class PendingWebhook implements PendingWebhookContract
      *
      * @param string|null $queue
      * @return PendingDispatch|PendingClosureDispatch
+     * @throws JsonException
      */
     public function queue(null|string $queue = null): PendingDispatch|PendingClosureDispatch
     {
@@ -124,12 +137,14 @@ final class PendingWebhook implements PendingWebhookContract
             );
         }
 
-        /** @phpstan-ignore-next-line  */
-        $this->request->withHeaders(
-            headers: [
-                strval(config('webhooks.signing.header')) => $this->signature ?: $this->sign()->signature,
-            ],
-        );
+        if ($this->signed) {
+            /** @phpstan-ignore-next-line  */
+            $this->request->withHeaders(
+                headers: [
+                    strval(config('webhooks.signing.header')) => $this->signature ?: $this->signed()->signature,
+                ],
+            );
+        }
 
         /** @phpstan-ignore-next-line  */
         return $this->request->send(
