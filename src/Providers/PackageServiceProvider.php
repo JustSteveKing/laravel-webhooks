@@ -37,6 +37,7 @@ final class PackageServiceProvider extends ServiceProvider
                 signer: $this->app->make(
                     abstract: SigningContract::class,
                 ),
+                signature: strval(config('webhooks.signing.key')),
             ),
         );
     }

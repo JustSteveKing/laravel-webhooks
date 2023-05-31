@@ -142,7 +142,9 @@ final class PendingWebhook implements PendingWebhookContract
             /** @phpstan-ignore-next-line  */
             $this->request->withHeaders(
                 headers: [
-                    strval(config('webhooks.signing.header')) => $this->signature ?: $this->signed()->signature,
+                    strval(config('webhooks.signing.header')) => $this->signer->sign(
+                        payload: $this->payload,
+                    ),
                 ],
             );
         }
@@ -151,6 +153,9 @@ final class PendingWebhook implements PendingWebhookContract
         return $this->request->send(
             method: $method->value,
             url: $this->url,
+            options: [
+                'json' => $this->payload,
+            ]
         )->throw();
     }
 }
