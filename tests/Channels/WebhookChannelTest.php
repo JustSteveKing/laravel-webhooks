@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use JustSteveKing\Webhooks\Channels\WebhookChannel;
 use JustSteveKing\Webhooks\Tests\Stubs\TestNotifiable;

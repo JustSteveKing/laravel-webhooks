@@ -20,15 +20,16 @@ use JustSteveKing\Webhooks\Jobs\DispatchWebhookRequest;
 final class PendingWebhook implements PendingWebhookContract
 {
     /**
-     * @param string $url
      * @param SigningContract $signer
+     * @param null|string $url
      * @param array $payload
+     * @param bool $signed
      * @param string|null $signature
      * @param PendingRequest|null $request
      */
     public function __construct(
-        public readonly string $url,
         public readonly SigningContract $signer,
+        public readonly null|string $url = null,
         public array $payload = [],
         public bool $signed = true,
         public null|string $signature = null,
