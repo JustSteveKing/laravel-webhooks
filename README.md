@@ -9,6 +9,10 @@
 > ([RFC 9421](https://www.rfc-editor.org/rfc/rfc9421)), the IETF standard, rather than this
 > package's own `Signature` header. Its README has a
 > [migration guide](https://github.com/JustSteveKing/api-toolbox#moving-from-juststevekinglaravel-webhooks).
+>
+> ```bash
+> composer require juststeveking/api-toolbox
+> ```
 
 <!-- BADGES_START -->
 [![Latest Version][badge-release]][packagist]
